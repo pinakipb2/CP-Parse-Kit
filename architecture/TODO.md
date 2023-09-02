@@ -5,19 +5,28 @@
 - [ ] config.json (root dir) should be of type as given in architecture
 ```json
 {
-  "PlatformParser": {
+  "PlatformParser": [
     "Atcoder" : {
-      "no_of_problems": 5
-      "...": "..."
+      "required": {
+        "language_extension": "cpp",
+        "...": "..."
+      },
+      "optional": {
+        "file_path": "temp/",
+        "...": "..."
+      },
     },
     "Codeforces": {
-      "no_of_problems": 5
-      "...": "..."
+      "required": {
+        "language_extension": "cpp",
+        "...": "..."
+      },
+      "optional": {
+        "file_path": "temp/",
+        "...": "..."
+      },
     }
-  },
-  "GlobalConfig": {
-    "...": "..."
-  }
+  ]
 }
 ```
 - [ ] Implement `configParser.py` to parse json and return the config [also if config does not exists return some default values]
