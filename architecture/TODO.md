@@ -21,5 +21,5 @@ GlobalConfig:
     - [ ] Check all elements are initalized in constructor
     - [ ] Check all the functions are implemented
 
-    
+- [ ] replace exit() with sys.exit()
     
