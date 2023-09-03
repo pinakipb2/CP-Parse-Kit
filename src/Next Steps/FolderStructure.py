@@ -8,7 +8,6 @@ log = structlog.get_logger(__name__)
 
 init(autoreset=True)
 
-
 class FolderStructure:
     def __init__(self, folder_name, no_of_problems, all_prob_inp_out, problem_url):
         log.info(f"{self.__class__.__name__} Initiated")

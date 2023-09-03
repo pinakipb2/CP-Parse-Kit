@@ -1,0 +1,25 @@
+{
+    "Platforms": [
+        {
+            "Atcoder": {
+                "required": {
+                    "language_extension": "atcoder",
+                    "execution_command": "./{file_name} < {input_file_name}"
+                },
+                "optional": {
+                    "folder_scaffold_path": "temp/"
+                }
+            }
+        },
+        {
+            "Codeforces": {
+                "required": {
+                    "language_extension": "codeforces"
+                },
+                "optional": {
+                    "file_path": "temp/"
+                }
+            }
+        }
+    ]
+}
