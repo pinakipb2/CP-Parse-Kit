@@ -33,10 +33,10 @@ class PluginManager:
         
 
 # Load and create plugin objects
-plugin_manager = PluginManager('PlatformParser')  # Assuming the folder name is PlatformParser
-inp = input("Enter plugin name: ")
-plugin_manager.load_plugins(inp)
-plugins = plugin_manager.get_plugins()
+# plugin_manager = PluginManager('PlatformParser')  # Assuming the folder name is PlatformParser
+# inp = input("Enter plugin name: ")
+# plugin_manager.load_plugins(inp)
+# plugins = plugin_manager.get_plugins()
 
 # Execute plugin actions
 # for plugin_name, plugin_obj in plugins.items():
