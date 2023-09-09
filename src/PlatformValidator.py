@@ -9,14 +9,15 @@ class PlatformValidator:
         self.module_path = ""
         self.user_platform_name = user_platform_name
         self.contest_id = contest_id
-        self.__load_platforms()
+        self.__initiate_validator()
 
     def __is_valid_platform_file_name(self, input_str):
         pattern = r"^[A-Z][a-z]*([A-Z][a-z]*)*\.py$"
         return re.match(pattern, input_str) is not None
 
-    def __create_instance_with_value(self):
+    def __create_instance(self):
         print(f"Loading plugin: {self.platform}")
+        
         class_object = globals()[self.platform]
         if self.platform in globals():
             instance = class_object(self.contest_id)  # Call the constructor with the value argument
@@ -28,7 +29,7 @@ class PlatformValidator:
         required_methods = ['get_input_and_output', 'get_problem_url', 'no_of_problems']
         required_properties = ['contest_id', 'contest_url', 'problem_url', 'contest_response']
 
-        platform_instance = self.__create_instance_with_value()
+        platform_instance = self.__create_instance()
         
         # Check all the functions
         all_class_members = inspect.getmembers(platform_instance)
@@ -44,7 +45,7 @@ class PlatformValidator:
         if is_missing:
             raise Exception(f"Missing Variable(s): {is_missing}")
 
-    def __load_platforms(self):
+    def __initiate_validator(self):
         all_platform_files = [file for file in os.listdir(self.platform_folder) if file.endswith('.py') and file != '__init__.py']
         print("Platforms found:", all_platform_files)
 
