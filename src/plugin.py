@@ -8,11 +8,11 @@ class PluginManager:
 
     def load_plugins(self, inp):
         plugin_files = [file for file in os.listdir(self.plugin_folder) if file.endswith('.py') and file != '__init__.py']
-        
+
         if not inp in [plugin[:-3].lower() for plugin in plugin_files]:
             print(f"Plugin {inp} not found")
             exit(1)
-            
+
         inp = [inp.capitalize()+".py"]
         
         # for plugin_file in plugin_files:
@@ -33,12 +33,12 @@ class PluginManager:
         
 
 # Load and create plugin objects
-plugin_manager = PluginManager('PlatformParser')  # Assuming the folder name is PlatformParser
-inp = input("Enter plugin name: ")
-plugin_manager.load_plugins(inp)
-plugins = plugin_manager.get_plugins()
+# plugin_manager = PluginManager('PlatformParser')  # Assuming the folder name is PlatformParser
+# inp = input("Enter plugin name: ")
+# plugin_manager.load_plugins(inp)
+# plugins = plugin_manager.get_plugins()
 
 # Execute plugin actions
-for plugin_name, plugin_obj in plugins.items():
-    print(f"Running plugin: {plugin_name}")
+# for plugin_name, plugin_obj in plugins.items():
+#     print(f"Running plugin: {plugin_name}")
     # plugin_obj.perform_action()

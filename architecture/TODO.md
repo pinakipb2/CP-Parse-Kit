@@ -2,30 +2,39 @@
 
 ## PlatformValidator
 
-- [ ] config.json (root dir) should be of type as given in architecture
+- [x] config.json (root dir) should be of type as given in architecture
 ```json
 {
-  "PlatformParser": {
+  "PlatformParser": [
     "Atcoder" : {
-      "no_of_problems": 5
-      "...": "..."
+      "required": {
+        "language_extension": "cpp",
+        "...": "..."
+      },
+      "optional": {
+        "file_path": "temp/",
+        "...": "..."
+      },
     },
     "Codeforces": {
-      "no_of_problems": 5
-      "...": "..."
+      "required": {
+        "language_extension": "cpp",
+        "...": "..."
+      },
+      "optional": {
+        "file_path": "temp/",
+        "...": "..."
+      },
     }
-  },
-  "GlobalConfig": {
-    "...": "..."
-  }
+  ]
 }
 ```
-- [ ] Implement `configParser.py` to parse json and return the config [also if config does not exists return some default values]
-    - [ ] Will check if config is available and all the required fields are present
-- [ ] Implement `PlatformValidator.py`
-    - [ ] Check the Pascal Case for classname and relation with file name (Atcoder.py -> AtcoderParser)
-    - [ ] Check all elements are initalized in constructor
-    - [ ] Check all the functions are implemented
+- [x] Implement `configParser.py` to parse json and return the config [also if config does not exists return some default values]
+    - [x] Will check if config is available and all the required fields are present
+- [x] Implement `PlatformValidator.py`
+    - [x] Check the Pascal Case for classname and relation with file name (Atcoder.py -> AtcoderParser)
+    - [x] Check all elements are initalized in constructor
+    - [x] Check all the functions are implemented
 
-- [ ] replace exit() with sys.exit()
+- [x] replace exit() with sys.exit()
     

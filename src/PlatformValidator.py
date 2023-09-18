@@ -1,46 +1,75 @@
 import os
 import re
-# import importlib
-
-def is_valid_platform_file_name(input_str):
-    pattern = r"^[A-Z][a-z]*([A-Z][a-z]*)*\.py$"
-    return re.match(pattern, input_str) is not None
+import sys
+import inspect
 
 class PlatformValidator:
-    def __init__(self, platform_folder):
+    def __init__(self, platform_folder, user_platform_name, contest_id):
         self.platform_folder = platform_folder
-        self.platforms = {}
+        self.platform = ""
+        self.module_path = ""
+        self.user_platform_name = user_platform_name
+        self.contest_id = contest_id
+        self.__initiate_validator()
 
-    def validate(self):
-        platform_files = [file for file in os.listdir(self.platform_folder) if file.endswith('.py') and file != '__init__.py']
-        
-        print("Platforms found", platform_files)
-        
-        for string in platform_files:
-          if not is_valid_platform_file_name(string):
-            print(f"The platform '{string}' does not follow Platform Naming Rules")
-            exit(1)
-        
-        
-        # if not inp in [plugin[:-3].lower() for plugin in plugin_files]:
-        #     print(f"Plugin {inp} not found")
-        #     exit(1)
-            
-        # inp = [inp.capitalize()+".py"]
-        
-        # # for plugin_file in plugin_files:
-        # for plugin_file in inp:
-        #     plugin_name = os.path.splitext(plugin_file)[0]
-        #     module_path = f'{self.plugin_folder}.{plugin_name}'
-            
-        #     try:
-        #         module = importlib.import_module(module_path)
-        #         plugin_class = getattr(module, f'{plugin_name}Parser')
-        #         print(f"Loading plugin: {plugin_name}")
-        #         self.plugins[plugin_name] = plugin_class(100)
-        #     except Exception as e:
-        #         print(f"Error loading plugin {plugin_name}: {e}")
+    def __is_valid_platform_file_name(self, input_str):
+        pattern = r"^[A-Z][a-z]*([A-Z][a-z]*)*\.py$"
+        return re.match(pattern, input_str) is not None
 
- 
-platform_manager = PlatformValidator('PlatformParser')
-platform_manager.validate()
+    def __create_instance(self):
+        print(f"Loading plugin: {self.platform}")
+        
+        class_object = globals()[self.platform]
+        if self.platform in globals():
+            instance = class_object(self.contest_id)  # Call the constructor with the value argument
+            return instance
+        else:
+            raise ValueError(f"Class '{self.platform}' not found")
+
+    def __validate(self):
+        required_methods = ['get_input_and_output', 'get_problem_url', 'no_of_problems']
+        required_properties = ['contest_id', 'contest_url', 'problem_url', 'contest_response']
+
+        platform_instance = self.__create_instance()
+        
+        # Checking all the functions
+        all_class_members = inspect.getmembers(platform_instance)
+        callable_members = [member for member in all_class_members if callable(member[1])]
+        methods = [members[0] for members in callable_members]
+        is_missing = set(required_methods) - set(methods)
+        if is_missing:
+            raise Exception(f"Missing Method(s): {is_missing}")
+
+        # Checking all the properties
+        properties = list(vars(platform_instance).keys())
+        is_missing = set(required_properties) - set(properties)
+        if is_missing:
+            raise Exception(f"Missing Variable(s): {is_missing}")
+
+    def __initiate_validator(self):
+        all_platform_files = [file for file in os.listdir(self.platform_folder) if file.endswith('.py') and file != '__init__.py']
+        print("Platforms found:", all_platform_files)
+
+        try:
+            for string in all_platform_files:
+                if not self.__is_valid_platform_file_name(string):
+                    raise Exception(f"The platform '{string}' does not follow Platform Naming Rules")
+
+            if not self.user_platform_name.lower() in [plugin[:-3].lower() for plugin in all_platform_files]:
+                raise Exception(f"Plugin {self.user_platform_name} not found")
+
+            self.user_platform_name = self.user_platform_name.capitalize()
+            self.module_path = f"{self.platform_folder}.{self.user_platform_name}"
+            class_name = f"{self.user_platform_name}Parser"
+
+            # importing required {Platform}Parser
+            exec(f"from {self.module_path} import {class_name}", globals())
+            self.platform = f"{class_name}"
+            self.__validate()
+            
+        except Exception as e:
+            print(f"Error loading platform {self.user_platform_name}: {e}")
+            sys.exit(1)
+
+# Debugging -
+# platform_manager = PlatformValidator('PlatformParser', 'Atcoder', 100)

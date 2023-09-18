@@ -6,7 +6,6 @@ from utility import number_to_letter
 
 log = structlog.get_logger(__name__)
 
-
 class AtcoderParser:
     def __init__(self, contest_id):
         log.info(f"{self.__class__.__name__} Initiated")
